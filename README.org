@@ -7,7 +7,23 @@ Several popular approaches to 3D vision tasks process multiple views of the inpu
 * Demo
 Coming soon!
 * Reference
-Coming soon!
+
+Carlos Esteves*, Yinshuang Xu*, Christine Allen-Blanchette, Kostas Daniilidis.
+Equivariant Multi-View Networks. http://arxiv.org/abs/1904.00993
+
+#+BEGIN_SRC bibtex
+@article{esteves_xu_19_equiv_multi_view_networ,
+  author = {Esteves, Carlos and Xu, Yinshuang and Allen-Blanchette, Christine and Daniilidis, Kostas},
+  title = {Equivariant Multi-View Networks},
+  journal = {CoRR},
+  year = {2019},
+  url = {http://arxiv.org/abs/1904.00993},
+  archivePrefix = {arXiv},
+  eprint = {1904.00993},
+  primaryClass = {cs.CV},
+}
+#+END_SRC
+
 * Authors
 [[http://machc.github.io][Carlos Esteves]]*, [[https://xuyinxuyin.github.io/][Yinshuang Xu]]*, [[http://www.seas.upenn.edu/~allec/][Christine Allen-Blanchette]], [[http://www.cis.upenn.edu/~kostas/][Kostas Daniilidis]]
 
