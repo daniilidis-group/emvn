@@ -1,0 +1,157 @@
+import numpy as np
+
+# ====== DATA ======
+m40_mean = [0.485, 0.456, 0.406]
+m40_std = [0.229, 0.224, 0.225]
+
+# subset of ModelNet with approx 100 instances per class
+# this keeps the maximum id per class for easy filtering
+modelnet_subset = {
+    'train': {'airplane': 80,
+              'bathtub': 80,
+              'bed': 80,
+              'bench': 80,
+              'bookshelf': 80,
+              'bottle': 80,
+              'bowl': 64,
+              'car': 80,
+              'chair': 80,
+              'cone': 80,
+              'cup': 79,
+              'curtain': 80,
+              'desk': 80,
+              'door': 80,
+              'dresser': 80,
+              'flower_pot': 80,
+              'glass_box': 80,
+              'guitar': 80,
+              'keyboard': 80,
+              'lamp': 80,
+              'laptop': 80,
+              'mantel': 80,
+              'monitor': 80,
+              'night_stand': 80,
+              'person': 80,
+              'piano': 80,
+              'plant': 80,
+              'radio': 80,
+              'range_hood': 80,
+              'sink': 80,
+              'sofa': 80,
+              'stairs': 80,
+              'stool': 80,
+              'table': 80,
+              'tent': 80,
+              'toilet': 80,
+              'tv_stand': 80,
+              'vase': 80,
+              'wardrobe': 80,
+              'xbox': 80,
+              },
+    'test': {'airplane': 646,
+             'bathtub': 126,
+             'bed': 535,
+             'bench': 193,
+             'bookshelf': 592,
+             'bottle': 355,
+             'bowl': 84,
+             'car': 217,
+             'chair': 909,
+             'cone': 187,
+             'cup': 99,
+             'curtain': 158,
+             'desk': 220,
+             'door': 129,
+             'dresser': 220,
+             'flower_pot': 169,
+             'glass_box': 191,
+             'guitar': 175,
+             'keyboard': 165,
+             'lamp': 144,
+             'laptop': 169,
+             'mantel': 304,
+             'monitor': 485,
+             'night_stand': 220,
+             'person': 108,
+             'piano': 251,
+             'plant': 260,
+             'radio': 124,
+             'range_hood': 135,
+             'sink': 148,
+             'sofa': 700,
+             'stairs': 144,
+             'stool': 110,
+             'table': 412,
+             'tent': 183,
+             'toilet': 364,
+             'tv_stand': 287,
+             'vase': 495,
+             'wardrobe': 107,
+             'xbox': 123,
+             }
+}
+
+# ====== MODELS ======
+homogeneous_classes_60_20 = np.array([[29,  1, 23],
+                                      [28,  0, 22],
+                                      [27,  4, 21],
+                                      [58, 15, 13],
+                                      [45,  9, 43],
+                                      [38, 51, 30],
+                                      [39, 52, 31],
+                                      [35, 53, 32],
+                                      [40, 47,  6],
+                                      [11, 56, 18],
+                                      [26,  3, 20],
+                                      [25,  2, 24],
+                                      [16, 14, 59],
+                                      [5, 44, 46],
+                                      [17, 10, 55],
+                                      [41, 48,  7],
+                                      [57, 19, 12],
+                                      [49,  8, 42],
+                                      [34, 37, 50],
+                                      [54, 33, 36]], dtype='uint8')
+
+# if dataset is upright, this reorders the views to match homogeneous_classes_60_20[:, 0]
+upright_to_homogeneous_20 = list(np.arange(20))
+upright_to_homogeneous_12 = list(np.arange(12))
+upright_to_homogeneous = {
+    12: upright_to_homogeneous_12, 20: upright_to_homogeneous_20}
+
+# these respect the dodec renderings
+# good filter localization: 0, 1, 2, 6, 7, 10
+homogeneous_classes_60_12 = np.array([[10, 11, 12, 13, 14],
+                                      [0,  8, 20, 38, 44],
+                                      [4,  7, 24, 37, 43],
+                                      [18, 28, 32, 51, 58],
+                                      [45, 46, 47, 48, 49],
+                                      [15, 25, 34, 53, 55],
+                                      [1,  9, 21, 39, 40],
+                                      [3,  6, 23, 36, 42],
+                                      [19, 29, 33, 52, 59],
+                                      [17, 27, 31, 50, 57],
+                                      [2,  5, 22, 35, 41],
+                                      [16, 26, 30, 54, 56]],
+                                     dtype='uint8')
+
+# this one is achieved by taking the origin as the first rotation with correct angles
+# homogeneous_classes_60_12 = np.array([[ 0,  1,  2,  3,  4],
+#                                       [ 5, 10, 16, 20, 25],
+#                                       [ 6, 11, 17, 21, 26],
+#                                       [ 7, 12, 18, 22, 27],
+#                                       [ 8, 13, 19, 23, 28],
+#                                       [ 9, 14, 15, 24, 29],
+#                                       [30, 39, 44, 45, 59],
+#                                       [31, 35, 40, 46, 55],
+#                                       [32, 36, 41, 47, 56],
+#                                       [33, 37, 42, 48, 57],
+#                                       [34, 38, 43, 49, 58],
+#                                       [50, 51, 52, 53, 54]],
+#                                      dtype='uint8')
+
+homogeneous_tables = {60:
+                      {12: {'ids': list(homogeneous_classes_60_12[:, 0]),
+                            'classes': homogeneous_classes_60_12},
+                       20: {'ids': list(homogeneous_classes_60_20[:, 0]),
+                            'classes': homogeneous_classes_60_20}}}
