@@ -8,7 +8,7 @@ Several popular approaches to 3D vision tasks process multiple views of the inpu
 
 This repository contains demos for our best models on rotated and aligned ModelNet40.
 
-Check the requirements in requirements.txt
+Check the requirements in requirements.txt. Our codebase has been tested on TensorFlow 1.15 but the dependency is commented out in requirements.txt to silence GitHub's security warnings. 
 
 Download the datasets [[https://drive.google.com/drive/folders/1EiHCjpNmNJdHeH5GI1QoZhzR7EoeJDIl][here]].
 
@@ -24,10 +24,6 @@ cd emvn
 virtualenv -p python3 env
 source env/bin/activate
 pip install -r requirements.txt
-#+END_SRC
-
-#+BEGIN_SRC sh
-
 #+END_SRC
 
 ** Training on aligned ModelNet40
