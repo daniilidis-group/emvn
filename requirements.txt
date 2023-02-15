@@ -26,4 +26,4 @@ tensorpack==0.9.8
 termcolor==1.1.0
 torch==1.0.1
 tqdm==4.36.1
-Werkzeug==0.16.0
+Werkzeug==2.2.3
